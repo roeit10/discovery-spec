@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{doc_type}} · {{title}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{font_query}}&display=swap" rel="stylesheet">
+<style>
+/* ===== THEME - נמלא מ-spec-theme.json. לא מעצבים מחדש, משנים רק את הערכים ===== */
+:root{
+  --primary:{{primary}};
+  --primary-ink:{{primary_ink}};
+  --accent:{{accent}};
+  --ink:{{ink}};
+  --muted:{{muted}};
+  --line:{{line}};
+  --paper:{{paper}};
+  --font:{{font}};
+  --font-head:{{font_head}};
+  --radius:{{radius}};
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+/* ===== A4: השוליים, מספרי העמודים והפוטר נבנים ע"י Chrome בכל עמוד ===== */
+@page{
+  size:A4;
+  margin:16mm 0 20mm 0;
+  @bottom-right{content:"{{footer_text}}";font-family:{{font}};font-size:8.5pt;color:{{muted}};vertical-align:top;padding:5mm 16mm 0 0;text-align:right}
+  @bottom-left{content:counter(page) " / " counter(pages);font-family:{{font}};font-size:8.5pt;color:{{muted}};vertical-align:top;padding:5mm 0 0 16mm;text-align:left;direction:ltr}
+}
+@page :first{
+  margin-top:0;
+}
+
+html,body{background:#fff;color:var(--ink);font-family:var(--font);font-size:10.5pt;line-height:1.6;-webkit-font-smoothing:antialiased}
+.doc{width:210mm;margin:0 auto;padding:0 16mm}
+h1,h2,h3{font-family:var(--font-head);line-height:1.2;color:var(--ink)}
+
+/* ===== שער ===== */
+.cover{background:var(--primary);color:var(--primary-ink);margin:0 -16mm;padding:14mm 16mm 10mm;position:relative}
+.cover-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12mm}
+.brand{display:flex;align-items:center;gap:3mm;font-family:var(--font-head);font-weight:800;font-size:13pt}
+.brand img{height:11mm;width:auto;background:#fff;border-radius:2mm;padding:1mm}
+.doc-type{font-family:var(--font-head);font-weight:700;font-size:9.5pt;letter-spacing:.04em;border:1.5px solid currentColor;border-radius:999px;padding:1.2mm 4mm;opacity:.95}
+.cover h1{font-size:25pt;font-weight:800;color:var(--primary-ink);margin-bottom:3mm;max-width:150mm}
+.cover .subtitle{font-size:12pt;opacity:.9;max-width:150mm}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(36mm,1fr));gap:4mm;margin-top:9mm;padding-top:5mm;border-top:1px solid rgba(255,255,255,.35)}
+.meta div{font-size:9.5pt;line-height:1.35}
+.meta b{display:block;font-weight:700;font-size:8pt;opacity:.75;letter-spacing:.03em;margin-bottom:1mm}
+
+/* ===== הפתיחה: הבעיה של הלקוח, במילים שלו ===== */
+.problem{margin:8mm 0 7mm;padding:5mm 6mm 4mm;border:2px solid var(--primary);border-radius:var(--radius);break-inside:avoid}
+.problem .label{display:block;font-family:var(--font-head);font-size:9pt;color:var(--primary);margin-bottom:1.5mm;letter-spacing:.03em}
+.problem ul{list-style:none}
+.problem li{padding:1.4mm 0;font-size:12pt;line-height:1.55;font-weight:500}
+.problem li + li{border-top:1px solid var(--line)}
+.problem .said{display:block;font-size:10pt;color:var(--muted);font-weight:400;margin-top:.6mm}
+.problem + .summary{margin-top:-2mm}
+
+/* ===== בקצרה ===== */
+.summary{margin:8mm 0 7mm;padding:5mm 6mm;background:var(--paper);border-radius:var(--radius);border-right:4px solid var(--primary);font-size:11.5pt;line-height:1.65;break-inside:avoid}
+.summary b{display:block;font-family:var(--font-head);font-size:9pt;color:var(--primary);margin-bottom:1.5mm;letter-spacing:.03em}
+
+/* ===== סעיפים ===== */
+.section{margin-bottom:7mm}
+.section.keep{break-inside:avoid}
+.section-head{display:flex;align-items:baseline;gap:3mm;border-bottom:1.5px solid var(--line);padding-bottom:2mm;margin-bottom:3.5mm;break-after:avoid}
+.section-head .num{font-family:var(--font-head);font-weight:800;font-size:10pt;color:var(--primary);direction:ltr;unicode-bidi:isolate}
+.section-head h2{font-size:14.5pt;font-weight:800}
+.section-head .hint{margin-inline-start:auto;font-size:8.5pt;color:var(--muted)}
+.section > p.intro{color:var(--muted);font-size:9.5pt;margin:-1.5mm 0 3mm;break-after:avoid}
+
+/* רשימה רגילה */
+ul.items{list-style:none}
+ul.items li{position:relative;padding:1.6mm 6mm 1.6mm 0;break-inside:avoid}
+ul.items li::before{content:"";position:absolute;right:0;top:3.6mm;width:2.2mm;height:2.2mm;border-radius:50%;background:var(--primary)}
+ul.items li + li{border-top:1px solid var(--line)}
+
+/* שלבים */
+ol.stages{list-style:none;counter-reset:st}
+ol.stages li{counter-increment:st;position:relative;padding:3.2mm 13mm 3.2mm 4mm;margin-bottom:2.5mm;background:var(--paper);border-radius:var(--radius);break-inside:avoid}
+ol.stages li::before{content:counter(st);position:absolute;right:3.5mm;top:3mm;width:7mm;height:7mm;border-radius:50%;background:var(--primary);color:var(--primary-ink);font-family:var(--font-head);font-weight:800;font-size:10pt;display:flex;align-items:center;justify-content:center}
+ol.stages h3{font-size:11.5pt;font-weight:800;margin-bottom:.8mm}
+ol.stages p{font-size:10pt}
+ol.stages .out{margin-top:1.4mm;font-size:9.5pt;color:var(--muted)}
+ol.stages .out b{color:var(--ink)}
+
+/* מה צריך ממך */
+ul.check{list-style:none}
+ul.check li{display:flex;gap:3mm;align-items:flex-start;padding:1.8mm 0;break-inside:avoid}
+ul.check li + li{border-top:1px solid var(--line)}
+ul.check li::before{content:"";flex:none;width:3.6mm;height:3.6mm;border:1.6px solid var(--ink);border-radius:1mm;margin-top:1.1mm;background:#fff}
+ul.check .status{flex:none;font-size:8pt;color:var(--primary);background:var(--paper);border-radius:999px;padding:.3mm 2.5mm;margin-top:.4mm;white-space:nowrap}
+
+/* טבלה */
+table.grid{width:100%;border-collapse:collapse;font-size:9.8pt}
+table.grid th{background:var(--paper);font-family:var(--font-head);font-weight:700;text-align:right;padding:2mm 3mm;border-bottom:1.5px solid var(--line)}
+table.grid td{padding:2mm 3mm;border-bottom:1px solid var(--line);vertical-align:top}
+table.grid tr{break-inside:avoid}
+
+/* לא כלול + גבולות העבודה: בולט בכוונה, כי זה מה שמגן מתוספות שלא סוכמו */
+.scope{border:2px solid var(--ink);border-radius:var(--radius);padding:3.5mm 5mm;break-inside:avoid}
+.scope .sub{font-family:var(--font-head);font-weight:800;font-size:9pt;letter-spacing:.03em;color:var(--muted);margin:0 0 1.5mm}
+.scope .limits + .sub,.scope .limits + .note{margin-top:1mm}
+.scope .note{font-size:9.5pt;color:var(--muted);margin-bottom:2mm}
+.limits{display:flex;gap:3mm;margin-bottom:2.5mm}
+.limit{flex:1;background:var(--ink);color:#fff;border-radius:calc(var(--radius) * .8);padding:2.2mm 4mm}
+.limit b{display:block;font-family:var(--font-head);font-weight:800;font-size:15pt;line-height:1.15}
+.limit span{display:block;font-size:9pt;opacity:.85;margin-top:.8mm}
+ul.out{list-style:none}
+ul.out li{position:relative;padding:1.2mm 7mm 1.2mm 0;color:var(--ink);font-weight:600;break-inside:avoid}
+ul.out li + li{border-top:1px solid var(--line)}
+ul.out li::before{content:"✕";position:absolute;right:0;top:1.3mm;font-size:10.5pt;color:#B3261E;font-weight:800}
+
+/* קופסאות: רעיונות / פתוח לבירור */
+.box{border-radius:var(--radius);padding:4.5mm 5.5mm;break-inside:avoid}
+.box.ideas{border:1.5px dashed var(--line);background:#fff}
+.box.open{background:#FFF8E1;border:1px solid #F2D27A}
+.box .note{font-size:9pt;color:var(--muted);margin-bottom:2mm}
+.box ul{list-style:none}
+.box li{position:relative;padding:1.2mm 6mm 1.2mm 0}
+.box.ideas li::before{content:"←";position:absolute;right:0;color:var(--primary);font-weight:700}
+.box.open li::before{content:"?";position:absolute;right:.6mm;font-weight:800;color:#9A6B00}
+
+/* הצעד הבא */
+.next{background:var(--ink);color:#fff;border-radius:var(--radius);padding:5.5mm 6mm;break-inside:avoid;margin-top:2mm}
+.next h2{color:#fff;font-size:13pt;margin-bottom:1.5mm}
+.next p{font-size:10.5pt;opacity:.95}
+.next .timing{margin-top:2.5mm;font-size:9.5pt;opacity:.85}
+.next .contact{margin-top:3.5mm;padding-top:3mm;border-top:1px solid rgba(255,255,255,.25);display:flex;flex-wrap:wrap;gap:2mm 6mm;font-size:9.5pt}
+.next .contact span[dir=ltr]{unicode-bidi:isolate}
+.next-wrap{break-inside:avoid}
+
+/* אישור האפיון: טקסט מוכן שהלקוח מעתיק ושולח בחזרה */
+.approval-wrap{break-inside:avoid;margin-top:3mm;margin-bottom:0}
+.approval{border:2px dashed var(--primary);border-radius:var(--radius);padding:3.5mm 5mm;background:#fff}
+.approval-head{display:flex;justify-content:space-between;align-items:center;gap:4mm;margin-bottom:1.5mm}
+.approval h2{font-size:13pt;color:var(--primary)}
+.approval .note{font-size:9pt;color:var(--muted);margin-bottom:1.8mm}
+.approval-text{background:var(--paper);border-radius:calc(var(--radius) * .8);padding:2.5mm 4mm;font-size:10pt;line-height:1.5;white-space:pre-line}
+.copy-btn{flex:none;font-family:var(--font-head);font-weight:700;font-size:10pt;background:var(--primary);color:var(--primary-ink);border:0;border-radius:999px;padding:1.6mm 5mm;cursor:pointer}
+.copy-btn.done{background:var(--ink);color:#fff}
+@media print{.copy-btn{display:none!important}}
+
+.sm{font-size:9pt;color:var(--muted)}
+mark.missing{background:#FFF3A3;color:#5A4A00;padding:0 1.5mm;border-radius:1mm;font-weight:700}
+
+/* מסך בלבד: מדמה דף A4 כדי שקל לקרוא בדפדפן */
+@media screen{
+  body{background:#E9E8E4;padding:10mm 0}
+  .doc{background:#fff;padding-bottom:16mm;box-shadow:0 2px 18px rgba(0,0,0,.12)}
+}
+</style>
+</head>
+<body>
+<main class="doc">
+
+<header class="cover">
+  <div class="cover-top">
+    <div class="brand">{{logo}}<span>{{brand}}</span></div>
+    <span class="doc-type">{{doc_type}}</span>
+  </div>
+  <h1>{{title}}</h1>
+  <p class="subtitle">{{subtitle}}</p>
+  <div class="meta">{{meta}}</div>
+</header>
+
+{{problem}}
+
+{{summary}}
+
+{{blocks}}
+
+</main>
+<script>
+/* copy the approval text as it is now (after edits in the editable version) */
+function copyApproval(btn){
+  var el=document.getElementById('approval-text'); if(!el) return;
+  var t=el.innerText.trim();
+  var ok=function(){btn.textContent='הועתק ✓';btn.classList.add('done');setTimeout(function(){btn.textContent='העתקה';btn.classList.remove('done');},1800);};
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(ok,function(){fallback(t);ok();});}
+  else{fallback(t);ok();}
+  function fallback(x){var a=document.createElement('textarea');a.value=x;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy');}catch(e){}a.remove();}
+}
+</script>
+</body>
+</html>

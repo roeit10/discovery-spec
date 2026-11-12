@@ -1,0 +1,25 @@
+# מפתחות - לעולם לא
+.env
+
+# הדאטה והפלטים של המשתמש
+context/
+outputs/
+*.pdf
+transcript*.txt
+*-transcript.txt
+.pages/
+
+# תיקיית הצילום ותכנון - לא לריפו הציבורי
+demo/
+.filming/
+script/
+publishing/
+VIDEO.md
+*תסריט*.md
+
+# מערכת
+.DS_Store
+__pycache__/
+
+# גיבויים מקומיים של גרסאות קודמות
+*.v3-backup
